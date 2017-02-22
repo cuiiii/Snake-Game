@@ -3,12 +3,6 @@ CUI-LYN HUANG
 huang.cu@husky.neu.edu
 SNAKE */
 
-// things to look at:
-// issue with going reverse direction -> should end game/be impossible move
-// sometimes food does not align with grid/snake? 
-// add walls as barrier 
-// full screen or no?
-
 Snake snake1;
 Snake snake2;
 Food food;
