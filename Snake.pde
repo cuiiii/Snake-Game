@@ -3,18 +3,22 @@ class Snake {
   //define variables
   int len;
   float sidelen;
+  color strokeClr;
+  color fillClr;
   String dir; 
   ArrayList <Float> xpos, ypos;
   
   //constructor
-  Snake() {
+  Snake(float side, color sClr, color fClr) {
     len = 1;
-    sidelen = 17;
+    sidelen = side;
     dir = "right";
     xpos = new ArrayList();
     ypos = new ArrayList();
     xpos.add( random(width) );
     ypos.add( random(height) );
+    fillClr = sClr;
+    strokeClr = fClr;
   }
   
   //functions
@@ -54,8 +58,9 @@ class Snake {
   
   void render() {
     for (int i = 0; i <len; i++) {
-      noStroke();
-      fill(129, 128, 129, map(i-1, 0, len-1, 250, 50));
+      stroke(strokeClr);
+      fill(fillClr);
+      //fill(129, 128, 129, map(i-1, 0, len-1, 250, 50));
       rect(xpos.get(i), ypos.get(i), sidelen, sidelen);
     }
   }

@@ -1,5 +1,7 @@
 class Food {
 
+  // want to change to diamond shape/tilted square
+  
   // define variables
   float xpos, ypos;
 
