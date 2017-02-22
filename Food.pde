@@ -10,7 +10,7 @@ class Food {
   }
 
   // functions
-  void display() {
+  void render() {
 
     fill(58, 58, 58);
     ellipse(xpos, ypos, 17, 17);

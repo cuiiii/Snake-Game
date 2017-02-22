@@ -52,7 +52,7 @@ class Snake {
     }
   }
   
-  void display() {
+  void render() {
     for (int i = 0; i <len; i++) {
       noStroke();
       fill(129, 128, 129, map(i-1, 0, len-1, 250, 50));

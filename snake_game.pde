@@ -1,12 +1,12 @@
 /* PROGRAMMING BASICS
-CUI-LYN HUANG
-huang.cu@husky.neu.edu
-SNAKE */
+ CUI-LYN HUANG
+ huang.cu@husky.neu.edu
+ SNAKE */
 
 Snake snake1;
 Snake snake2;
 Food food;
-int highScore;
+ScoreBoard score;
 
 color green = color(209, 204, 174);
 color grey = color(129, 128, 129);
@@ -17,25 +17,21 @@ void setup() {
   snake1 = new Snake();
   snake2 = new Snake();
   food = new Food();
-
-  highScore = 0;
+  score = new ScoreBoard(grey);
 }
 
 void draw() {
   background(green);
-  scoreboard();
+  
+  score.render();
 
   snake1.move();
-  snake1.display();
-  food.display();
+  snake1.render();
+  food.render();
 
   if ( dist(food.xpos, food.ypos, snake1.xpos.get(0), snake1.ypos.get(0)) < snake1.sidelen ) {
     food.reset();
     snake1.addLink();
-  }
-
-  if (snake1.len > highScore) {
-    highScore = (snake1.len-1);
   }
 }
 
@@ -55,12 +51,3 @@ void keyPressed() {
     }
   }
 }
-
-void scoreboard() {
-  fill(grey);
-  textSize(20);
-  text( "SCORE: " + (snake1.len-1), 20, 20);
-  text( "HIGH SCORE: " + highScore, 20, 40);
-}
-
-  
