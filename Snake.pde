@@ -7,7 +7,7 @@ class Snake {
   color fillClr;
   String dir; 
   ArrayList <Float> xpos, ypos;
-  
+
   //constructor
   Snake(float side, color sClr, color fClr) {
     len = 1;
@@ -15,12 +15,12 @@ class Snake {
     dir = "right";
     xpos = new ArrayList();
     ypos = new ArrayList();
-    xpos.add( random(width) );
-    ypos.add( random(height) );
-    fillClr = sClr;
-    strokeClr = fClr;
+    xpos.add(random(width));
+    ypos.add(random(height));
+    fillClr = fClr;
+    strokeClr = sClr;
   }
-  
+
   //functions
   void move() {
     for (int i = len - 1; i > 0; i = i -1 ) {
@@ -55,19 +55,19 @@ class Snake {
       ypos.add(ytemp);
     }
   }
-  
+
   void render() {
+    stroke(strokeClr);
+    fill(fillClr);
     for (int i = 0; i <len; i++) {
-      stroke(strokeClr);
-      fill(fillClr);
       //fill(129, 128, 129, map(i-1, 0, len-1, 250, 50));
       rect(xpos.get(i), ypos.get(i), sidelen, sidelen);
     }
   }
 
   void addLink() {
-    xpos.add( xpos.get(len-1) + sidelen);
-    ypos.add( ypos.get(len-1) + sidelen);
+    xpos.add(xpos.get(len-1) + sidelen);
+    ypos.add(ypos.get(len-1) + sidelen);
     len++;
   }
 

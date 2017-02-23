@@ -6,13 +6,26 @@
 // looked at multiple resources online on Snake game implementations
 
 /* **GAME MECHANICS**
- [FIXED] multiplayer key press issue
- [IP - partially fixed] frame rate "issue", weird twitch/growth?
- fix grid alignment 
+ [IP - partially fixed] frame rate "issue"
+   if (xpos[i-2].x - xpos[i-1].x == 0 || xpos[i-2].x - xpos[i-1].x == 0) {
+     then do as you do
+     if (xpos[i-2].x - xpos[i-1].x > 0) {
+       then new square needs to -sidelen;
+       else if (xpos[i-2].x - xpos[i-1].x < 0) {
+         then new square needs to +sidelen;
+       }
+       if (ypos[i-2].y - ypos[i-1].y > 0) {
+       then new square needs to -sidelen;
+       else if (ypos[i-2].y - ypos[i-1].y < 0) {
+         then new square needs to +sidelen;
+       }
+       }
+     }
+ fix grid alignment -> move needs to be a multiple of sidelength -> 
  add snake collision case
  add game over case
  eat food, slow the snake
- revert stage?? (how to keep the game going?)
+ revert stage?? (if you get X points you get to cut off your tail?)
  
  **GAME AESTHETICS**
  change food style
@@ -22,10 +35,12 @@
 float snakeSide = 17;
 float scoreMargin = 20;
 float snakeSpeed;
+float foodSize = 17;
 
 color snake1Colour = color(0, 0, 255);
 color snake2Colour = color(255, 0, 0);
 color snakeFillColour = color(129, 128, 129);
+color foodClr = color(129, 128, 129);
 color green = color(209, 204, 174);
 color grey = color(129, 128, 129);
 
@@ -49,13 +64,13 @@ void setup() {
   frameRate(60);
   snake1 = new Snake(snakeSide, snake1Colour, snakeFillColour);
   snake2 = new Snake(snakeSide, snake2Colour, snakeFillColour);
-  food = new Food();
+  food = new Food(foodSize, foodClr);
   score = new ScoreBoard(scoreMargin, grey);
 }
 
 void draw() {
   background(green);
-  
+
   //check keyboard interactions
   //snake1 movements
   if (isOneMovingUp) {
@@ -84,28 +99,28 @@ void draw() {
   if (isTwoMovingRight) {
     snake2.dir = "right";
   }
-  
+
   //draw the objects
   score.render();
   food.render();
   snake1.render();
   snake2.render();
-  
+
   //init snake speed
   if (frameCount%10 == 2) { 
     snake1.move();
     snake2.move();
+    if (dist(food.xpos, food.ypos, snake1.xpos.get(0), snake1.ypos.get(0)) < snake1.sidelen ) {
+      food.reset();
+      snake1.addLink();
+    }
+    if (dist(food.xpos, food.ypos, snake2.xpos.get(0), snake2.ypos.get(0)) < snake2.sidelen ) {
+      food.reset();
+      snake2.addLink();
+    }
   }
 
   //when food is eaten grow snake and reset food
-  if (dist(food.xpos, food.ypos, snake1.xpos.get(0), snake1.ypos.get(0)) < snake1.sidelen ) {
-    food.reset();
-    snake1.addLink();
-  }
-  if (dist(food.xpos, food.ypos, snake2.xpos.get(0), snake2.ypos.get(0)) < snake2.sidelen ) {
-    food.reset();
-    snake2.addLink();
-  }
 }
 
 void keyPressed() {
