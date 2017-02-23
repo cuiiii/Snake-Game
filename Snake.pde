@@ -58,8 +58,8 @@ class Snake {
 
   void render() {
     stroke(strokeClr);
-    fill(fillClr);
     for (int i = 0; i <len; i++) {
+      fill(fillClr, map(i-1, 0, len-1, 250, 50));
       //fill(129, 128, 129, map(i-1, 0, len-1, 250, 50));
       rect(xpos.get(i), ypos.get(i), sidelen, sidelen);
     }

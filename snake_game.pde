@@ -37,9 +37,10 @@ float scoreMargin = 20;
 float snakeSpeed;
 float foodSize = 17;
 
-color snake1Colour = color(0, 0, 255);
-color snake2Colour = color(255, 0, 0);
-color snakeFillColour = color(129, 128, 129);
+color snake1StrokeColour = color(220);
+color snake2StrokeColour = color(220);
+color snake1FillColour = color(255, 0, 0);
+color snake2FillColour = color(0, 0, 255);
 color foodClr = color(129, 128, 129);
 color green = color(209, 204, 174);
 color grey = color(129, 128, 129);
@@ -62,14 +63,14 @@ ScoreBoard score;
 void setup() {
   size(1000, 600); //will be fullscreen eventually
   frameRate(60);
-  snake1 = new Snake(snakeSide, snake1Colour, snakeFillColour);
-  snake2 = new Snake(snakeSide, snake2Colour, snakeFillColour);
+  snake1 = new Snake(snakeSide, snake1StrokeColour, snake1FillColour);
+  snake2 = new Snake(snakeSide, snake2StrokeColour, snake2FillColour);
   food = new Food(foodSize, foodClr);
   score = new ScoreBoard(scoreMargin, grey);
 }
 
 void draw() {
-  background(green);
+  background(255);
 
   //check keyboard interactions
   //snake1 movements
