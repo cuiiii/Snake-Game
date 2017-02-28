@@ -7,9 +7,10 @@ class Snake {
   color fillClr;
   String dir; 
   ArrayList <Float> xpos, ypos;
+  String name;
 
   //constructor
-  Snake(float side, color sClr, color fClr) {
+  Snake(String name_, float side, color sClr, color fClr) {
     len = 1;
     sidelen = side;
     dir = "right";
@@ -19,6 +20,7 @@ class Snake {
     ypos.add(random(height));
     fillClr = fClr;
     strokeClr = sClr;
+    name = name_;
   }
 
   //functions
@@ -45,16 +47,20 @@ class Snake {
     ypos.set(0, (ypos.get(0) + height) % height);
 
     // check if hit itself and if so cut off the tail
-    if ( checkHit() == true) {
-      len = 1;
+    if (checkHit() == true) {
+      gameOver = true;
+      println(name + "loses");
+    }
+  }
+  
+  /*len = 1;
       float xtemp = xpos.get(0);
       float ytemp = ypos.get(0);
       xpos.clear();
       ypos.clear();
       xpos.add(xtemp);
       ypos.add(ytemp);
-    }
-  }
+      */
 
   void render() {
     stroke(strokeClr);

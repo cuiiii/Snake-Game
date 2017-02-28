@@ -7,21 +7,21 @@
 
 /* **GAME MECHANICS**
  [IP - partially fixed] frame rate "issue"
-   if (xpos[i-2].x - xpos[i-1].x == 0 || xpos[i-2].x - xpos[i-1].x == 0) {
-     then do as you do
-     if (xpos[i-2].x - xpos[i-1].x > 0) {
-       then new square needs to -sidelen;
-       else if (xpos[i-2].x - xpos[i-1].x < 0) {
-         then new square needs to +sidelen;
-       }
-       if (ypos[i-2].y - ypos[i-1].y > 0) {
-       then new square needs to -sidelen;
-       else if (ypos[i-2].y - ypos[i-1].y < 0) {
-         then new square needs to +sidelen;
-       }
-       }
-     }
- fix grid alignment -> move needs to be a multiple of sidelength -> 
+ if (xpos[i-2].x - xpos[i-1].x == 0 || xpos[i-2].x - xpos[i-1].x == 0) {
+ then do as you do
+ if (xpos[i-2].x - xpos[i-1].x > 0) {
+ then new square needs to -sidelen;
+ else if (xpos[i-2].x - xpos[i-1].x < 0) {
+ then new square needs to +sidelen;
+ }
+ if (ypos[i-2].y - ypos[i-1].y > 0) {
+ then new square needs to -sidelen;
+ else if (ypos[i-2].y - ypos[i-1].y < 0) {
+ then new square needs to +sidelen;
+ }
+ }
+ }
+ [IP] fix grid alignment -> move needs to be a multiple of sidelength -> 
  add snake collision case
  add game over case
  eat food, slow the snake
@@ -55,6 +55,8 @@ boolean isTwoMovingDown = false;
 boolean isTwoMovingLeft = false;
 boolean isTwoMovingRight = false;
 
+boolean gameOver = false;
+
 Snake snake1;
 Snake snake2;
 Food food;
@@ -63,65 +65,70 @@ ScoreBoard score;
 void setup() {
   size(1000, 600); //will be fullscreen eventually
   frameRate(60);
-  snake1 = new Snake(snakeSide, snake1StrokeColour, snake1FillColour);
-  snake2 = new Snake(snakeSide, snake2StrokeColour, snake2FillColour);
+  snake1 = new Snake("Red Player", snakeSide, snake1StrokeColour, snake1FillColour);
+  snake2 = new Snake("Blue Player", snakeSide, snake2StrokeColour, snake2FillColour);
   food = new Food(foodSize, foodClr);
-  score = new ScoreBoard(scoreMargin, grey);
+  score = new ScoreBoard(scoreMargin, snake1FillColour, snake2FillColour);
 }
 
 void draw() {
   background(255);
 
-  //check keyboard interactions
-  //snake1 movements
-  if (isOneMovingUp) {
-    snake1.dir = "up";
-  }
-  if (isOneMovingDown) {
-    snake1.dir = "down";
-  }
-  if (isOneMovingLeft) {
-    snake1.dir = "left";
-  }
-  if (isOneMovingRight) {
-    snake1.dir = "right";
-  }
-
-  //snake2 movements
-  if (isTwoMovingUp) {
-    snake2.dir = "up";
-  }
-  if (isTwoMovingDown) {
-    snake2.dir = "down";
-  }
-  if (isTwoMovingLeft) {
-    snake2.dir = "left";
-  }
-  if (isTwoMovingRight) {
-    snake2.dir = "right";
-  }
-
-  //draw the objects
-  score.render();
-  food.render();
-  snake1.render();
-  snake2.render();
-
-  //init snake speed
-  if (frameCount%10 == 2) { 
-    snake1.move();
-    snake2.move();
-    if (dist(food.xpos, food.ypos, snake1.xpos.get(0), snake1.ypos.get(0)) < snake1.sidelen ) {
-      food.reset();
-      snake1.addLink();
+  if (gameOver == true) {
+    fill(0);
+    text("GAME OVER", 0.5*width, 0.5*height);
+  } else {
+    //check keyboard interactions
+    //snake1 movements
+    if (isOneMovingUp) {
+      snake1.dir = "up";
     }
-    if (dist(food.xpos, food.ypos, snake2.xpos.get(0), snake2.ypos.get(0)) < snake2.sidelen ) {
-      food.reset();
-      snake2.addLink();
+    if (isOneMovingDown) {
+      snake1.dir = "down";
     }
-  }
+    if (isOneMovingLeft) {
+      snake1.dir = "left";
+    }
+    if (isOneMovingRight) {
+      snake1.dir = "right";
+    }
 
-  //when food is eaten grow snake and reset food
+    //snake2 movements
+    if (isTwoMovingUp) {
+      snake2.dir = "up";
+    }
+    if (isTwoMovingDown) {
+      snake2.dir = "down";
+    }
+    if (isTwoMovingLeft) {
+      snake2.dir = "left";
+    }
+    if (isTwoMovingRight) {
+      snake2.dir = "right";
+    }
+
+    //draw the objects
+    score.render();
+    food.render();
+    snake1.render();
+    snake2.render();
+
+    //init snake speed
+    if (frameCount%10 == 2) { 
+      snake1.move();
+      snake2.move();
+      if (dist(food.xpos, food.ypos, snake1.xpos.get(0), snake1.ypos.get(0)) < snake1.sidelen ) {
+        food.reset();
+        snake1.addLink();
+      }
+      if (dist(food.xpos, food.ypos, snake2.xpos.get(0), snake2.ypos.get(0)) < snake2.sidelen ) {
+        food.reset();
+        snake2.addLink();
+      }
+    }
+
+    //when food is eaten grow snake and reset food
+  }
 }
 
 void keyPressed() {
@@ -200,3 +207,8 @@ void keyReleased() {
     break;
   }
 }
+
+//void resetGame() {
+//  gameOver = false;
+//  score = 0;
+//}
