@@ -32,6 +32,7 @@
  make it pretty - colour theme/look
  */
 
+float i;
 float snakeSide = 17;
 float scoreMargin = 20;
 float snakeSpeed;
@@ -58,9 +59,6 @@ boolean isTwoMovingRight = false;
 boolean gameOver = false;
 boolean splashScreen = true;
 
-PImage splash;
-PImage gOver;
-
 Snake snake1;
 Snake snake2;
 Food food;
@@ -76,23 +74,45 @@ void setup() {
 }
 
 void draw() {
+  background(255);
+
   //splash screen
   if (splashScreen == true) {
-    background(0);
-    splash = loadImage("2playerScreen.png");
-    splash.resize(width, height);
-    image(splash, 0, 0);
-    if (keyPressed) {
-      if (key == ' ') {
-      splashScreen = false;
-    }
+    background(255);
+    textAlign(CENTER);
+    textSize(100);
+    fill(grey);
+    text("SNAKE", width/2, 200);
+    textSize(40);
+    text("Eat more food than your oppononent", width/2, 250);
+    text("Watch out for your tails!", width/2, 300); 
+    fill(snake1FillColour);
+    text("Player 1 use WASD to navigate", width/2, 350);  
+    fill(snake2FillColour);
+    text("Player 2 use IJKL to navigate", width/2, 400);
+    fill(grey);
+    textSize(60);
+    text("Press SPACE to start!", width/2, 480);
   }
-  background(255);
+
+  //game over condidtion
   if (gameOver == true) {
-    fill(0);
-    text("GAME OVER", 0.5*width, 0.5*height);
-  } else {
-    //check keyboard interactions
+    background(255);
+    fill(100);
+    textSize(100);
+    text("GAME OVER", width/2, height/2);
+    textSize(60);
+    if (snake1.len > snake2.len) {
+      fill(snake1FillColour);
+      text("Player 1 WINS", width/2, (height/2)+100);
+    } else {
+      fill(snake2FillColour);
+      text("Player 2 WINS", width/2, (height/2)+100);
+    }
+    text("Press 'R' to restart", width/2, (height/2)+200);
+  } else if (splashScreen == false) {
+
+    //game condition
     //snake1 movements
     if (isOneMovingUp) {
       snake1.dir = "up";
@@ -127,7 +147,7 @@ void draw() {
     snake1.render();
     snake2.render();
 
-    //init snake speed
+    //initial snake speed
     if (frameCount%10 == 2) { 
       snake1.move();
       snake2.move();
@@ -140,9 +160,6 @@ void draw() {
         snake2.addLink();
       }
     }
-
-    //when food is eaten grow snake and reset food
-  }
   }
 }
 
@@ -182,9 +199,18 @@ void keyPressed() {
     case 'L':
       isTwoMovingRight = true;
       break;
+      //case 'r':
+      //case 'R':
+      //  resetGame();
+      //  break;
+      //}
+    }
+    if (key == ' ') {
+      splashScreen = false;
     }
   }
 }
+
 
 void keyReleased() {
   switch(key) {
@@ -225,5 +251,8 @@ void keyReleased() {
 
 //void resetGame() {
 //  gameOver = false;
-//  score = 0;
+//  snake1.len = 1;
+//  snake2.len = 1;
+//  score.p1Score = 0;
+//  score.p2Score = 0;
 //}

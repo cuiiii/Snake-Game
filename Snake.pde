@@ -49,7 +49,6 @@ class Snake {
     // check if hit itself and if so cut off the tail
     if (checkHit() == true) {
       gameOver = true;
-      println(name + "loses");
     }
   }
   
