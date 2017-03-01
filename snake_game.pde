@@ -38,8 +38,8 @@ float scoreMargin = 20;
 float snakeSpeed;
 float foodSize = 17;
 
-color snake1StrokeColour = color(220);
-color snake2StrokeColour = color(220);
+color snake1StrokeColour = color(255);
+color snake2StrokeColour = color(255);
 color snake1FillColour = color(255, 0, 0);
 color snake2FillColour = color(0, 0, 255);
 color foodClr = color(129, 128, 129);
@@ -98,17 +98,18 @@ void draw() {
   //game over condidtion
   if (gameOver == true) {
     background(255);
-    fill(100);
+    fill(grey);
     textSize(100);
     text("GAME OVER", width/2, height/2);
     textSize(60);
     if (snake1.len > snake2.len) {
       fill(snake1FillColour);
-      text("Player 1 WINS", width/2, (height/2)+100);
+      text("Player 1 wins", width/2, (height/2)+100);
     } else {
       fill(snake2FillColour);
-      text("Player 2 WINS", width/2, (height/2)+100);
+      text("Player 2 wins", width/2, (height/2)+100);
     }
+    fill(grey);
     text("Press 'R' to restart", width/2, (height/2)+200);
   } else if (splashScreen == false) {
 
@@ -199,17 +200,17 @@ void keyPressed() {
     case 'L':
       isTwoMovingRight = true;
       break;
-      //case 'r':
-      //case 'R':
-      //  resetGame();
-      //  break;
-      //}
-    }
-    if (key == ' ') {
-      splashScreen = false;
+    case 'r':
+    case 'R':
+      resetGame();
+      break;
     }
   }
+  if (key == ' ') {
+    splashScreen = false;
+  }
 }
+
 
 
 void keyReleased() {
@@ -249,10 +250,10 @@ void keyReleased() {
   }
 }
 
-//void resetGame() {
-//  gameOver = false;
-//  snake1.len = 1;
-//  snake2.len = 1;
-//  score.p1Score = 0;
-//  score.p2Score = 0;
-//}
+void resetGame() {
+  gameOver = false;
+  snake1.len = 1;
+  snake2.len = 1;
+  score.p1Score = 0;
+  score.p2Score = 0;
+}

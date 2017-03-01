@@ -22,6 +22,6 @@ class ScoreBoard {
     textSize(20);
     text(snake1.len-1, margin, 20); 
     fill(rightClr);
-    text(snake2.len-1, width-margin-120, 20);
+    text(snake2.len-1, width-margin, 20);
   }
 }
