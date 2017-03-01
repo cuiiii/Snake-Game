@@ -56,6 +56,10 @@ boolean isTwoMovingLeft = false;
 boolean isTwoMovingRight = false;
 
 boolean gameOver = false;
+boolean splashScreen = true;
+
+PImage splash;
+PImage gOver;
 
 Snake snake1;
 Snake snake2;
@@ -72,8 +76,18 @@ void setup() {
 }
 
 void draw() {
+  //splash screen
+  if (splashScreen == true) {
+    background(0);
+    splash = loadImage("2playerScreen.png");
+    splash.resize(width, height);
+    image(splash, 0, 0);
+    if (keyPressed) {
+      if (key == ' ') {
+      splashScreen = false;
+    }
+  }
   background(255);
-
   if (gameOver == true) {
     fill(0);
     text("GAME OVER", 0.5*width, 0.5*height);
@@ -128,6 +142,7 @@ void draw() {
     }
 
     //when food is eaten grow snake and reset food
+  }
   }
 }
 
