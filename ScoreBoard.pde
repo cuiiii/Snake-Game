@@ -19,9 +19,9 @@ class ScoreBoard {
   void render() {
     pushStyle();
     fill(leftClr);
-    textSize(20);
-    text(snake1.len-1, margin, 20); 
+    textSize(40);
+    text(snake1.len-1, margin, 50); 
     fill(rightClr);
-    text(snake2.len-1, width-margin, 20);
+    text(snake2.len-1, width-margin, 50);
   }
 }

@@ -2,7 +2,7 @@ class Snake {
 
   //define variables
   int len;
-  float sidelen;
+  int sidelen;
   color strokeClr;
   color fillClr;
   String dir; 
@@ -10,7 +10,7 @@ class Snake {
   String name;
 
   //constructor
-  Snake(String name_, float side, color sClr, color fClr) {
+  Snake(String name_, int side, color sClr, color fClr) {
     len = 1;
     sidelen = side;
     dir = "right";
@@ -48,23 +48,21 @@ class Snake {
 
     // check if hit itself and if so cut off the tail
     if (checkHit() == true) {
-      gameOver = true;
-    }
-  }
-  
-  /*len = 1;
+      len = 1;
       float xtemp = xpos.get(0);
       float ytemp = ypos.get(0);
       xpos.clear();
       ypos.clear();
       xpos.add(xtemp);
       ypos.add(ytemp);
-      */
+      println("UH OH! "+name+" hit their own tail!");
+    }
+  }
 
   void render() {
     stroke(strokeClr);
     for (int i = 0; i <len; i++) {
-      fill(fillClr, map(i-1, 0, len-1, 250, 50));
+      fill(fillClr, map(i, 0, len, 250, 50));
       //fill(129, 128, 129, map(i-1, 0, len-1, 250, 50));
       rect(xpos.get(i), ypos.get(i), sidelen, sidelen);
     }

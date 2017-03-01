@@ -5,36 +5,8 @@
 
 // looked at multiple resources online on Snake game implementations
 
-/* **GAME MECHANICS**
- [IP - partially fixed] frame rate "issue"
- if (xpos[i-2].x - xpos[i-1].x == 0 || xpos[i-2].x - xpos[i-1].x == 0) {
- then do as you do
- if (xpos[i-2].x - xpos[i-1].x > 0) {
- then new square needs to -sidelen;
- else if (xpos[i-2].x - xpos[i-1].x < 0) {
- then new square needs to +sidelen;
- }
- if (ypos[i-2].y - ypos[i-1].y > 0) {
- then new square needs to -sidelen;
- else if (ypos[i-2].y - ypos[i-1].y < 0) {
- then new square needs to +sidelen;
- }
- }
- }
- [IP] fix grid alignment -> move needs to be a multiple of sidelength -> 
- add snake collision case
- add game over case
- eat food, slow the snake
- revert stage?? (if you get X points you get to cut off your tail?)
- 
- **GAME AESTHETICS**
- change food style
- make it pretty - colour theme/look
- */
-
-float i;
-float snakeSide = 17;
-float scoreMargin = 20;
+int snakeSide = 17;
+float scoreMargin = 50;
 float snakeSpeed;
 float foodSize = 17;
 
@@ -65,7 +37,7 @@ Food food;
 ScoreBoard score;
 
 void setup() {
-  size(1000, 600); //will be fullscreen eventually
+  size(986, 595); //will be fullscreen eventually
   frameRate(60);
   snake1 = new Snake("Red Player", snakeSide, snake1StrokeColour, snake1FillColour);
   snake2 = new Snake("Blue Player", snakeSide, snake2StrokeColour, snake2FillColour);
@@ -85,34 +57,31 @@ void draw() {
     text("SNAKE", width/2, 200);
     textSize(40);
     text("Eat more food than your oppononent", width/2, 250);
-    text("Watch out for your tails!", width/2, 300); 
+    text("Don't bump into your tail or lose your progress", width/2, 300); 
     fill(snake1FillColour);
     text("Player 1 use WASD to navigate", width/2, 350);  
     fill(snake2FillColour);
     text("Player 2 use IJKL to navigate", width/2, 400);
     fill(grey);
+    text("Get 5 points to win!", width/2, 450);
     textSize(60);
-    text("Press SPACE to start!", width/2, 480);
+    text("Press SPACE to start!", width/2, 530);
   }
 
   //game over condidtion
   if (gameOver == true) {
     background(255);
-    fill(grey);
-    textSize(100);
-    text("GAME OVER", width/2, height/2);
     textSize(60);
     if (snake1.len > snake2.len) {
       fill(snake1FillColour);
-      text("Player 1 wins", width/2, (height/2)+100);
+      text("Player 1 wins!", width/2, height/2);
     } else {
       fill(snake2FillColour);
-      text("Player 2 wins", width/2, (height/2)+100);
+      text("Player 2 wins!", width/2, height/2);
     }
     fill(grey);
-    text("Press 'R' to restart", width/2, (height/2)+200);
+    text("Press 'R' to restart", width/2, (height/2)+100);
   } else if (splashScreen == false) {
-
     //game condition
     //snake1 movements
     if (isOneMovingUp) {
@@ -161,6 +130,17 @@ void draw() {
         snake2.addLink();
       }
     }
+    
+    // win case
+    if (snake1.len == 6 || snake2.len == 6) {
+    gameOver = true;
+  }
+    //grid for aligning
+    //stroke(0);
+    //for (int i = 0; i < width; i += 17) {
+    //  line (i, 0, i, height);
+    //  line (0, i, width, i);
+    //}
   }
 }
 
